@@ -1,7 +1,10 @@
 from django.shortcuts import render
-	
-def post_list(request):
-    return render(request, 'blog/post_list.html', {})
+from django.utils import timezone
+from .models import Post
 
+def post_list(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'blog/post_list.html', {'posts': posts})
+    
 #Function post_list is created where post_list takes request and will return the value
 #that gets from render function that will render our template blog/post_list.html
